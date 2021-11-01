@@ -10,7 +10,7 @@ const server = express();
 // mongoose getting-started.js
 async function main() {
   await mongoose.connect(process.env.MONGO_URL);
-}
+}.then(() => console.log("DB is running!"))
 
 server.listen(port, () => {
   console.log("🧡 server is running on port: " + port);
