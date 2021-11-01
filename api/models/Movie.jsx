@@ -1,4 +1,4 @@
-import mongoose, { model } from "mongoose";
+import mongoose from "mongoose";
 
 const MovieSchema = new mongoose.Schema({
   title: { type: "String", required: true },
@@ -14,4 +14,4 @@ const MovieSchema = new mongoose.Schema({
   series: { type: Boolean, required: false },
 });
 
-model.exports = mongoose.model("Movie", MovieSchema)
+model.exports = mongoose.model("Movie", MovieSchema);
