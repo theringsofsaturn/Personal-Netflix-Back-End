@@ -8,7 +8,7 @@ const port = 3001;
 const server = express();
 
 // mongoose getting-started.js
-main().catch(err => console.log(err))
+main().catch((err) => console.log(err));
 
 async function main() {
   await mongoose.connect(process.env.MONGO_URL);
