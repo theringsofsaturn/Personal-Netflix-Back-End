@@ -41,7 +41,13 @@ authRouter.post("/login", async (req, res) => {
     originalPassword !== req.body.password &&
       res.status(401).json("Wrong password or username!");
     // and if they equal, we can send our user
-    res.status(200).json(user);
+
+    // we don't want the password to be sent so we desctructure this password inside user. 
+    // .doc (document) is all the information in our document (the content inside the user object) the one we get as a response
+    // so, what we do here is, take all the doc, take this password and other information: username, email etc... But hold this password, I need just the information. so we pass only info in .json(info)
+    const {password, ...info} = user.doc
+
+    res.status(200).json(info);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
