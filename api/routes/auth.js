@@ -1,6 +1,7 @@
 import express from "express";
 import User from "../models/User.js";
 import CryptoJS from "crypto-js";
+// const jwt = require("jsonwebtoken");
 
 const authRouter = express.Router();
 
@@ -11,7 +12,7 @@ authRouter.post("/register", async (req, res) => {
     email: req.body.email,
     // crypto-js packace script to encrypt password.
     password: CryptoJS.AES.encrypt(
-      "req.body.password",
+      req.body.password,
       process.env.SECRET_KEY
     ).toString(),
   });
@@ -35,10 +36,11 @@ authRouter.post("/login", async (req, res) => {
     // crypto-js script to decrypt password
     const bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
     const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
-
+    // so, basically the above code is going to decryp this, so we can compare -->
+    // if the original password is not the same as the password that we sent, send a status error
     originalPassword !== req.body.password &&
       res.status(401).json("Wrong password or username!");
-
+    // and if they equal, we can send our user
     res.status(200).json(user);
   } catch (error) {
     console.log(error);
