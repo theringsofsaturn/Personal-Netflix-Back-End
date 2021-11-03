@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import listEndpoints from "express-list-endpoints"
 import authRouter from "./routes/auth.js"
+import usersRouter from "./routes/users.js"
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ server.use(express.json())
 /* ************ENDPOINTS******************* */
 
 server.use("/api/auth", authRouter)
+server.use("/api/users", usersRouter)
 
 // mongoose getting-started.js
 main().catch((err) => console.log(err));
