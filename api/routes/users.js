@@ -45,7 +45,7 @@ userRouter.delete("/:id", verify, async (req, res) => {
   }
 });
 
-// GET
+// GET specific user
 userRouter.get("/find/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -75,6 +75,54 @@ userRouter.get("/", verify, async (req, res) => {
     res.status(403).json("You are not allowed to see all users!");
   }
 });
-// GET USER STATS
 
+// GET USER STATS
+userRouter.get("/stats", async (req, res)=>{
+   // today date
+  const today = new Date();
+    // if I subtract one year from today I'm gonna get a year before, so the last year.
+  const lastYear = today.setFullYear(today.setFullYear() - 1);
+
+  const monthArray = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  // I can find total users per month
+  // to find total users per month I should aggregate the users per month
+  try {
+    const data = await User.aggregate([
+      // function to find the month
+      {
+        $project: {
+          // is going to look at created at and find the month
+          // if it's January is gonna give us 1, it's February is gonna give us 2, etc
+          month: { $month: "$createdAt" }, 
+        },
+      },
+      // function to group by month
+      {
+        $group: {
+          _id: "$month",
+          // return total users per month
+          total: { $sum: 1 },
+        },
+      },
+    ]);
+    // return data
+    res.status(200).json(data)
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
 export default userRouter;
