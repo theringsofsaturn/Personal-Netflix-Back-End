@@ -57,6 +57,22 @@ userRouter.get("/find/:id", async (req, res) => {
 });
 
 // GET ALL
+// if no query is sent, is just gonna return ALL users. But if you add for example "/?new=true", is gonna return only last 10 users
+userRouter.get("/", verify, async (req, res) => {
+  const query = req.query.new; // (or new users) new is the key
+  if (req.user.isAdmin) {
+    try {
+      // if there is a query (which means if we are fetching only new users), is gonna fetch only last 10 users
+      // if there is no query, is gonna fetch all users
+      const users = query ? await User.find().limit(10) : await User.find();
+      res.status(200).json(users);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(403).json("You are not allowed to see all users!");
+  }
+});
 // GET USER STATS
 
 export default userRouter;
