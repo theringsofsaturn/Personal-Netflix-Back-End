@@ -24,7 +24,7 @@ movieRouter.post("/", verify, async (req, res) => {
 movieRouter.put("/:id", verify, async (req, res) => {
   if (req.user.isAdmin) {
     try {
-        // Find movie by id that was sent in the request. After finding it, update it with the new data (set the new data in the body)
+      // Find movie by id that was sent in the request. After finding it, update it with the new data (set the new data in the body)
       const updatedMovie = await Movie.findByIdAndUpdate(
         req.params.id,
         {
@@ -33,6 +33,20 @@ movieRouter.put("/:id", verify, async (req, res) => {
         { new: true } //remember to add this congifuration to get the updated data, if not, it will return the old data
       );
       res.status(200).json(updatedMovie);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(403).json("You are not allowed!");
+  }
+});
+
+// ***************** DELETE *****************
+movieRouter.delete("/:id", verify, async (req, res) => {
+  if (req.user.isAdmin) {
+    try {
+      await Movie.findByIdAndDelete(req.params.id);
+      res.status(200).json("The movie has been deleted.");
     } catch (err) {
       res.status(500).json(err);
     }
