@@ -5,6 +5,7 @@ import listEndpoints from "express-list-endpoints";
 import authRouter from "./routes/auth.js";
 import usersRouter from "./routes/users.js";
 import moviesRouter from "./routes/movies.js";
+import listsRouter from "./routes/lists.js";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ server.use(express.json());
 server.use("/api/auth", authRouter);
 server.use("/api/users", usersRouter)
 server.use("/api/movies", moviesRouter)
+server.use("/api/lists", listsRouter)
 
 
 // mongoose getting-started.js
