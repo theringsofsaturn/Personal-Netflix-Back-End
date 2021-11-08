@@ -1,4 +1,4 @@
-import mongoose, { model } from "mongoose";
+import mongoose from "mongoose";
 
 const ListSchema = new mongoose.Schema(
   {
@@ -10,4 +10,4 @@ const ListSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("List", ListSchema);
+export default mongoose.model("List", ListSchema);
